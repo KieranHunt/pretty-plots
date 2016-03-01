@@ -1,1 +1,1 @@
-[Presentation](https://cdn.rawgit.com/KieranHunt/pretty-plots/master/presentation.html)
+[Presentation](https://rawgit.com/KieranHunt/pretty-plots/master/presentation.html)
