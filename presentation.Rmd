@@ -21,7 +21,7 @@ output:
 
 ## Napolean's Invasion of Russia
 
-Charles Minard's Map of Napolean's Invasion of Russia
+Charles Minard's Map of Napolean's Invasion of Russia:
 
 ![Charles Minard's Map of Napolean's Invasion of Russia](https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Minard.png/1920px-Minard.png)
 
@@ -141,7 +141,7 @@ Let's give it some axis titles, a nice heading, and fit a few more breaks along 
 ```{r, eval=FALSE}
 df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
 plot <- ggplot(df, aes(listicle_size))
-    + geom_histogram(binwidth=1, fill="#c0392b", alpha=0.75)
+    + geom_histogram(binwidth=1, fill="#bc70e7", alpha=0.75)
     + fte_theme()
     + labs(title="Distribution of Listicle Sizes for BuzzFeed Listicles",
     x="# of Entries in Listicle",
@@ -161,7 +161,7 @@ library(grid)
 library(RColorBrewer)
 source("fte-theme.R")
 df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
-plot <- ggplot(df, aes(listicle_size)) + geom_histogram(binwidth=1, fill="#c0392b", alpha=0.75) + fte_theme() + labs(title="Distribution of Listicle Sizes for BuzzFeed Listicles", x="# of Entries in Listicle", y="# of Listicles") + scale_x_continuous(breaks=seq(0,50, by=5)) + scale_y_continuous(labels=comma) + geom_hline(yintercept=0, size=0.4, color="black")
+plot <- ggplot(df, aes(listicle_size)) + geom_histogram(binwidth=1, fill="#bc70e7", alpha=0.75) + fte_theme() + labs(title="Distribution of Listicle Sizes for BuzzFeed Listicles", x="# of Entries in Listicle", y="# of Listicles") + scale_x_continuous(breaks=seq(0,50, by=5)) + scale_y_continuous(labels=comma) + geom_hline(yintercept=0, size=0.4, color="black")
 plot
 ```
 
@@ -250,7 +250,7 @@ plot
 ```{r, eval=FALSE}
 df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
 plot <- ggplot(df, aes(x=listicle_size, y=num_fb_shares)) +
-    geom_point(alpha=0.05, color="#c0392b") +
+    geom_point(alpha=0.05, color="#bc70e7") +
     scale_x_continuous(breaks=seq(0,50, by=5)) +
     scale_y_log10(labels=comma, breaks=10^(0:6)) +
     scale_y_log10(labels=comma) +
@@ -274,6 +274,6 @@ library(grid)
 library(RColorBrewer)
 source("fte-theme.R")
 df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
-plot <- ggplot(df, aes(x=listicle_size, y=num_fb_shares)) + geom_point(alpha=0.05, color="#c0392b") + scale_x_continuous(breaks=seq(0,50, by=5)) + scale_y_log10(labels=comma, breaks=10^(0:6)) + scale_y_log10(labels=comma) + geom_hline(yintercept=1, size=0.4, color="black") + geom_smooth(alpha=0.25, color="black", fill="black") + fte_theme() + labs(x="# of Entries in Listicle", y="# of Facebook Shares", title="FB Shares vs. Listicle Size for BuzzFeed Listicles")
+plot <- ggplot(df, aes(x=listicle_size, y=num_fb_shares)) + geom_point(alpha=0.05, color="#bc70e7") + scale_x_continuous(breaks=seq(0,50, by=5)) + scale_y_log10(labels=comma, breaks=10^(0:6)) + scale_y_log10(labels=comma) + geom_hline(yintercept=1, size=0.4, color="black") + geom_smooth(alpha=0.25, color="black", fill="black") + fte_theme() + labs(x="# of Entries in Listicle", y="# of Facebook Shares", title="FB Shares vs. Listicle Size for BuzzFeed Listicles")
 plot
 ```
