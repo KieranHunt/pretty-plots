@@ -1,0 +1,279 @@
+---
+title: "Data is Everywhere: Where to Look and How to Plot it"
+author: Kieran Hunt
+date: 3 February 2016
+output:
+    revealjs::revealjs_presentation:
+        center: false
+        css: presentation.css
+---
+
+# Where to Look
+
+## Data is everywhere
+
+- [Websites with APIs](https://developer.github.com/v3/)
+- [Websites without APIs](http://www.crummy.com/software/BeautifulSoup/)
+- [City/Province/Country open data portals](https://web1.capetown.gov.za/web1/OpenDataPortal/)
+- Any of the work you do.
+
+# How to Plot it
+
+## Napolean's Invasion of Russia
+
+Charles Minard's Map of Napolean's Invasion of Russia
+
+![Charles Minard's Map of Napolean's Invasion of Russia](https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Minard.png/1920px-Minard.png)
+
+## 2 easy ways to plot data (you'll never believe number 2!)
+
+- We're all a bunch of millennials. We won't read anything that hasn't been turned into a list with a click-baity title.
+- I've got a dataset of our generation.
+![Buzzfeed!](https://upload.wikimedia.org/wikipedia/commons/e/e4/BuzzFeed.svg)
+
+## What the data looks like
+
+- A CSV of 15 101 Buzzfeed listicles.
+- With the columns: "title", "listicle_size", "num_fb_shares", and "url"
+- e.g.: "6 Reasons To Fall In Love With Maggie Stiefvaters Raven Cycle",6,2276,"[truncated url]"
+- Available [here](http://minimaxir.com/csv/buzzfeed_linkbait_headlines.csv).
+
+## What we'll need
+
+- A copy of the [R programming language](https://www.r-project.org/) (Your package manager should have this)
+- The following packages (CRAN should have these):
+    - ggplot2
+    - RColorBrewer
+    - scales
+
+
+Grab those dependencies:
+
+```{r eval=FALSE}
+install.packages(c("ggplot2", "RColorBrewer", "scales"),
+    repos='http://r.adu.org.za/')
+library(ggplot2)
+library(scales)
+library(grid)
+library(RColorBrewer)
+```
+
+## Read in the data
+
+R makes this very easy for us. Just a single line and we can work with the data.
+
+```{r}
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+```
+
+That line turns the csv into a data frame - sort of like a table in R. You can even just put a hyperlink in there and R will download the file. `header=T` tells R that the first line is the header.
+
+## Always try to be answering a question
+
+- It helps to ask a question and then try to answer it by plotting some data.
+- Our questions:
+ - What is the average length of a listicle that Buzzfeed publishes?
+ - Does the length of a listicle affect how popular it is on social media?
+
+## What is the distribution of listicle lengths in that Buzzfeed publishes?
+
+```{r, eval=FALSE}
+library(ggplot2)
+library(scales)
+library(grid)
+library(RColorBrewer)
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+plot <- ggplot(df, aes(listicle_size)) + geom_histogram(binwidth=1)
+plot
+```
+
+We pass in the dataframe to ggplot. We then specify the aesthetics, in this case `listicle_size` is a column in the dataframe (R knows that from the headings in the CSV) and ggplot works out that we want this on the x-axis.
+
+## Result
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(scales)
+library(grid)
+library(RColorBrewer)
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+plot <- ggplot(df, aes(listicle_size)) + geom_histogram(binwidth=1)
+plot
+```
+
+## Let's make that look a bit better
+
+- That graph looked pretty good but we can do better.
+- I've got a nice little function that acts like a theme for a ggplot graph. You can get it [here](https://paste.ubuntu.com/15234610/).
+
+```{r, eval=FALSE}
+library(ggplot2)
+library(scales)
+library(grid)
+library(RColorBrewer)
+source("fte-theme.R")
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+plot <- ggplot(df, aes(listicle_size))
+    + geom_histogram(binwidth=1)
+    + fte_theme()
+plot
+```
+
+## Result
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(scales)
+library(grid)
+library(RColorBrewer)
+source("fte-theme.R")
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+plot <- ggplot(df, aes(listicle_size)) + geom_histogram(binwidth=1) + fte_theme()
+plot
+```
+
+## We're getting there
+
+So that looked a bit better. But I think we can still add a bit more.
+
+Let's give it some axis titles, a nice heading, and fit a few more breaks along the x and y axes. We'll also add a touch of color and transparency. I've omitted some of the imports for brevity.
+
+```{r, eval=FALSE}
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+plot <- ggplot(df, aes(listicle_size))
+    + geom_histogram(binwidth=1, fill="#c0392b", alpha=0.75)
+    + fte_theme()
+    + labs(title="Distribution of Listicle Sizes for BuzzFeed Listicles",
+    x="# of Entries in Listicle",
+    y="# of Listicles")
+    + scale_x_continuous(breaks=seq(0,50, by=5))
+    + scale_y_continuous(labels=comma)
+    + geom_hline(yintercept=0, size=0.4, color="black")
+plot
+```
+
+## Result
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(scales)
+library(grid)
+library(RColorBrewer)
+source("fte-theme.R")
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+plot <- ggplot(df, aes(listicle_size)) + geom_histogram(binwidth=1, fill="#c0392b", alpha=0.75) + fte_theme() + labs(title="Distribution of Listicle Sizes for BuzzFeed Listicles", x="# of Entries in Listicle", y="# of Listicles") + scale_x_continuous(breaks=seq(0,50, by=5)) + scale_y_continuous(labels=comma) + geom_hline(yintercept=0, size=0.4, color="black")
+plot
+```
+
+## Are longer listicles more popular on social media?
+
+The amazing ggplot2 can also do scatter plots. We can give it all 15 101 points to plot and it'll happily do that for us. Try **that** in excel.
+
+```{r, eval=FALSE}
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+plot <- ggplot(df, aes(x=listicle_size, y=num_fb_shares)) +
+      geom_point()
+plot
+```
+
+## Result
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(scales)
+library(grid)
+library(RColorBrewer)
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+plot <- ggplot(df, aes(x=listicle_size, y=num_fb_shares)) +
+      geom_point()
+plot
+```
+
+## That looks a bit iffy
+
+You may be able to understand that graph but it has one big issue. There are a few listicles in the dataset with over 1 000 000 shares and that forces the rest of the points really close to the bottom. But we can fix this. With a log scale!
+
+```{r, eval=FALSE}
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+plot <- ggplot(df, aes(x=listicle_size, y=num_fb_shares)) +
+      geom_point(alpha=0.05) +
+      scale_y_log10(labels=comma)
+plot
+```
+
+Also note that I've given each point an alpha value of 0.05. This means that each point is only 5% opaque (or 95% transparent). This serves to enhance places in the plot where many points are congregated.
+
+## Result
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(scales)
+library(grid)
+library(RColorBrewer)
+source("fte-theme.R")
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+plot <- ggplot(df, aes(x=listicle_size, y=num_fb_shares)) + geom_point(alpha=0.05) + scale_y_log10(labels=comma)
+plot
+```
+
+## But can it look better?
+
+Of course! Add our theme again and some axis titles.
+
+```{r, eval=FALSE}
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+plot <- ggplot(df, aes(x=listicle_size, y=num_fb_shares)) +
+    geom_point(alpha=0.05) +
+    scale_y_log10(labels=comma) +
+    fte_theme() +
+    labs(x="# of Entries in Listicle",
+    y="# of Facebook Shares",
+    title="FB Shares vs. Listicle Size for BuzzFeed Listicles")
+plot
+```
+
+## Result
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(scales)
+library(grid)
+library(RColorBrewer)
+source("fte-theme.R")
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+plot <- ggplot(df, aes(x=listicle_size, y=num_fb_shares)) + geom_point(alpha=0.05) + scale_y_log10(labels=comma) + fte_theme() + labs(x="# of Entries in Listicle", y="# of Facebook Shares", title="FB Shares vs. Listicle Size for BuzzFeed Listicles")
+plot
+```
+
+## Let's add a few final touches
+
+```{r, eval=FALSE}
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+plot <- ggplot(df, aes(x=listicle_size, y=num_fb_shares)) +
+    geom_point(alpha=0.05, color="#c0392b") +
+    scale_x_continuous(breaks=seq(0,50, by=5)) +
+    scale_y_log10(labels=comma, breaks=10^(0:6)) +
+    scale_y_log10(labels=comma) +
+    geom_hline(yintercept=1, size=0.4, color="black") +
+    geom_smooth(alpha=0.25, color="black", fill="black") +
+    fte_theme() +
+    labs(x="# of Entries in Listicle",
+    y="# of Facebook Shares",
+    title="FB Shares vs. Listicle Size for BuzzFeed Listicles")
+plot
+```
+
+We've also added a line of best fit (with confidence).
+
+## Result
+
+```{r, echo=FALSE, message=FALSE}
+library(ggplot2)
+library(scales)
+library(grid)
+library(RColorBrewer)
+source("fte-theme.R")
+df <- read.csv("buzzfeed_linkbait_headlines.csv", header=T)
+plot <- ggplot(df, aes(x=listicle_size, y=num_fb_shares)) + geom_point(alpha=0.05, color="#c0392b") + scale_x_continuous(breaks=seq(0,50, by=5)) + scale_y_log10(labels=comma, breaks=10^(0:6)) + scale_y_log10(labels=comma) + geom_hline(yintercept=1, size=0.4, color="black") + geom_smooth(alpha=0.25, color="black", fill="black") + fte_theme() + labs(x="# of Entries in Listicle", y="# of Facebook Shares", title="FB Shares vs. Listicle Size for BuzzFeed Listicles")
+plot
+```
