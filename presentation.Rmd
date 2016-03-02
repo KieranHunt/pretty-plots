@@ -6,6 +6,7 @@ output:
     revealjs::revealjs_presentation:
         center: false
         css: presentation.css
+        slide_level: 1
 ---
 
 # Where to Look
@@ -24,6 +25,12 @@ output:
 Charles Minard's Map of Napolean's Invasion of Russia:
 
 ![Charles Minard's Map of Napolean's Invasion of Russia](https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Minard.png/1920px-Minard.png)
+
+## French Wine Exports
+
+Charles Minard's Map of French Wine Exports:
+
+![Charles Minard's Map of French Wine Exports](http://assets00.grou.ps/0F2E3C/userimages/visualthinkmap/20100905104027-llfocrmsjlrckoyng.jpg)
 
 ## 2 easy ways to plot data (you'll never believe number 2!)
 
