@@ -43,7 +43,7 @@ Charles Minard's Map of French Wine Exports:
 - A CSV of 15 101 Buzzfeed listicles.
 - With the columns: "title", "listicle_size", "num_fb_shares", and "url"
 - e.g.: "6 Reasons To Fall In Love With Maggie Stiefvaters Raven Cycle",6,2276,"[truncated url]"
-- Available [here](http://minimaxir.com/csv/buzzfeed_linkbait_headlines.csv).
+- Available [here](https://github.com/KieranHunt/pretty-plots/raw/master/buzzfeed_linkbait_headlines.csv).
 
 ## What we'll need
 
