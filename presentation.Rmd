@@ -111,7 +111,7 @@ plot
 ## Let's make that look a bit better
 
 - That graph looked pretty good but we can do better.
-- I've got a nice little function that acts like a theme for a ggplot graph. You can get it [here](https://paste.ubuntu.com/15234610/).
+- I've got a nice little function that acts like a theme for a ggplot graph. You can get it [here](https://raw.githubusercontent.com/KieranHunt/pretty-plots/master/fte-theme.R).
 
 ```{r, eval=FALSE}
 library(ggplot2)
